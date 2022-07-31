@@ -18,6 +18,9 @@ export default function CategoryId({ blog }) {
           </li>
         ))}
       </ul>
+      <Link href="/">
+        <a>ホームへ</a>
+      </Link>
     </div>
   );
 }
@@ -33,7 +36,10 @@ export const getStaticPaths = async () => {
 // データをテンプレートに受け渡す部分の処理を記述します
 export const getStaticProps = async (context) => {
   const id = context.params.id;
-  const data = await client.get({ endpoint: "blog", queries: { filters: `category[equals]${id}` } });
+  const data = await client.get({
+    endpoint: "blog",
+    queries: { filters: `category[equals]${id}` },
+  });
 
   return {
     props: {

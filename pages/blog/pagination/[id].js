@@ -1,23 +1,31 @@
-import Link from 'next/link';
-import { Pagination } from '../../../components/Pagination';
+import Link from "next/link";
+import { Pagination } from "../../../components/Pagination";
 import { client } from "../../../libs/client";
+import styled from "styled-components";
 
-const PER_PAGE = 5; 
+const PER_PAGE = 5;
+
+const StyledUl = styled.ul`
+  list-style: none;
+`;
 
 // pages/blog/[id].js
 export default function BlogPageId({ blog, totalCount }) {
   return (
     <div>
-      <ul>
-        {blog.map(blog => (
+      <StyledUl>
+        {blog.map((blog) => (
           <li key={blog.id}>
             <Link href={`/blog/${blog.id}`}>
               <a>{blog.title}</a>
             </Link>
           </li>
         ))}
-      </ul>
+      </StyledUl>
       <Pagination totalCount={totalCount} />
+      <Link href="/">
+        <a>ホームへ</a>
+      </Link>
     </div>
   );
 }
@@ -27,15 +35,14 @@ export default function BlogPageId({ blog, totalCount }) {
 export const getStaticPaths = async () => {
   const repos = await client.get({ endpoint: "blog" });
 
-
   const pageNumbers = [];
 
+  const range = (start, end) =>
+    [...Array(end - start + 1)].map((_, i) => start + i);
 
-  const range = (start, end) => [...Array(end - start + 1)].map((_, i) => start + i);
-
-
-  const paths = range(1, Math.ceil(repos.totalCount / PER_PAGE)).map((repo) => `/blog/page/${repo}`);
-
+  const paths = range(1, Math.ceil(repos.totalCount / PER_PAGE)).map(
+    (repo) => `/blog/pagination/${repo}`
+  );
 
   return { paths, fallback: false };
 };
@@ -44,7 +51,10 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const id = context.params.id;
 
-  const data = await client.get({ endpoint: "blog", queries: { offset: (id - 1) * 5, limit: 5 } });
+  const data = await client.get({
+    endpoint: "blog",
+    queries: { offset: (id - 1) * 5, limit: 5 },
+  });
 
   return {
     props: {

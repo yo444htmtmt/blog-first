@@ -1,5 +1,10 @@
-import Router from 'next/router';
 import Link from 'next/link';
+import styled from "styled-components";
+
+const StyledUl = styled.ul`
+  list-style: none;
+`;
+
 
 export const Pagination = ({ totalCount }) => {
   const PER_PAGE = 5;
@@ -8,14 +13,14 @@ export const Pagination = ({ totalCount }) => {
         [...Array(end - start + 1)].map((_, i) => start + i)
 
   return (
-    <ul>
+    <StyledUl>
       {range(1, Math.ceil(totalCount / PER_PAGE)).map((number, index) => (
         <li key={index}>
-          <Link href={ `/blog/page/${number}`}>
+          <Link href={ `/blog/pagination/${number}`}>
             <a>{number}</a>
           </Link>
         </li>
       ))}
-    </ul>
+    </StyledUl>
   );
 };

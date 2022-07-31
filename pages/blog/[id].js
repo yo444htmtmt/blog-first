@@ -2,6 +2,8 @@ import { client } from "../../libs/client";
 import styles from "../../styles/Home.module.scss";
 import { renderToc } from "../../libs/render-toc";
 import { TableOfContents } from "../../components/TableOfContents";
+import Link from "next/link";
+import styled from "styled-components";
 
 export default function BlogId({ blog }) {
   const toc = renderToc(blog.body);
@@ -17,6 +19,9 @@ export default function BlogId({ blog }) {
         }}
         className={styles.post}
       />
+      <Link href="/">
+        <a>ホームへ</a>
+      </Link>
     </main>
   );
 }
