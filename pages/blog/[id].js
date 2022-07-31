@@ -1,11 +1,16 @@
 import { client } from "../../libs/client";
-import styles from '../../styles/Home.module.scss';
+import styles from "../../styles/Home.module.scss";
+import { renderToc } from "../../libs/render-toc";
+import { TableOfContents } from "../../components/TableOfContents";
 
 export default function BlogId({ blog }) {
+  const toc = renderToc(blog.body);
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>{blog.title}</h1>
       <p className={styles.publishedAt}>{blog.publishedAt}</p>
+      <p className="category">{blog.category && `${blog.category.name}`}</p>
+      {blog.toc_visible && <TableOfContents toc={toc} />}
       <div
         dangerouslySetInnerHTML={{
           __html: `${blog.body}`,
