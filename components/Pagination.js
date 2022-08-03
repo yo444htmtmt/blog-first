@@ -1,10 +1,12 @@
 import Link from 'next/link';
-import styled from "styled-components";
-
-const StyledUl = styled.ul`
-  list-style: none;
-`;
-
+import {
+  Box,
+  List,
+  ListItem,
+  ListIcon,
+  OrderedList,
+  UnorderedList,
+} from "@chakra-ui/react";
 
 export const Pagination = ({ totalCount }) => {
   const PER_PAGE = 5;
@@ -13,14 +15,14 @@ export const Pagination = ({ totalCount }) => {
         [...Array(end - start + 1)].map((_, i) => start + i)
 
   return (
-    <StyledUl>
+    <List>
       {range(1, Math.ceil(totalCount / PER_PAGE)).map((number, index) => (
-        <li key={index}>
+        <ListItem key={index}>
           <Link href={ `/blog/pagination/${number}`}>
             <a>{number}</a>
           </Link>
-        </li>
+        </ListItem>
       ))}
-    </StyledUl>
+    </List>
   );
 };
